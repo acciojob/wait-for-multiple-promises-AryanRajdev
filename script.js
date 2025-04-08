@@ -21,7 +21,7 @@ const startTime = Date.now();
 Promise.all([p1, p2, p3]).then((val) => {
   let table = document.getElementById("output");
   let tr1 = document.getElementById("before");
-  tr1.classList.add("hidden");
+  tr1.remove();
 
   // console.log(val[0], val[1], val[2]);
   let resolvedTimes = [];
