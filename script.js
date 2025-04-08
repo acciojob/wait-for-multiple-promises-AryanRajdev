@@ -24,30 +24,23 @@ Promise.all([p1, p2, p3]).then((val) => {
   tr1.classList.add("hidden");
 
   // console.log(val[0], val[1], val[2]);
-
+  let resolvedTimes = [];
+	
   val.forEach((element, index) => {
     let tr = document.createElement("tr");
     let td1 = document.createElement("td");
     td1.textContent = element;
     let td2 = document.createElement("td");
-    if(index === 0){
-      td2.textContent = "2";
-    }
-    else if(index === 1){
-      td2.textContent = "1";
-    }
-    else{
-      td2.textContent = "3";
-    }
+    td2.textContent = (index + 1).toString();
+
+	resolvedTimes.push(parseFloat(td2.textContent));
 
     tr.appendChild(td1);
     tr.appendChild(td2);
     table.appendChild(tr);
   });
 
-  const endTime = Date.now();
-
-  let time = (endTime-startTime)/1000;
+  let time = Math.max(...resolvedTimes);
   time = time.toFixed(3);
 
   // console.log(time);
