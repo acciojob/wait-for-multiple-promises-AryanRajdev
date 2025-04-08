@@ -16,44 +16,50 @@ const p3 = new Promise((resolve, reject) => {
   }, 3000);
 });
 
+const table = document.getElementById("output");
+
+// Add loading row before promises resolve
+const loadingRow = document.createElement("tr");
+loadingRow.id = "loading";
+const loadingTd = document.createElement("td");
+loadingTd.colSpan = 2;
+loadingTd.textContent = "Loading...";
+loadingRow.appendChild(loadingTd);
+table.appendChild(loadingRow);
+
 const startTime = Date.now();
 
 Promise.all([p1, p2, p3]).then((val) => {
-  let table = document.getElementById("output");
-  let tr1 = document.getElementById("before");
-  tr1.remove();
+  // Remove the loading row
+  const trLoading = document.getElementById("loading");
+  if (trLoading) trLoading.remove();
 
-  // console.log(val[0], val[1], val[2]);
-  let resolvedTimes = [];
-	
   val.forEach((element, index) => {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td");
     td1.textContent = element;
-    let td2 = document.createElement("td");
-    td2.textContent = (index + 1).toString();
+    const td2 = document.createElement("td");
 
-	resolvedTimes.push(parseFloat(td2.textContent));
+    // Match delays with respective values
+    if (element === "Promise 1") td2.textContent = "2";
+    else if (element === "Promise 2") td2.textContent = "1";
+    else td2.textContent = "3";
 
     tr.appendChild(td1);
     tr.appendChild(td2);
     table.appendChild(tr);
   });
 
-  let time = Math.max(...resolvedTimes);
-  time = time.toFixed(3);
+  const endTime = Date.now();
+  let time = ((endTime - startTime) / 1000).toFixed(3);
 
-  // console.log(time);
-
-  let tr2 = document.createElement("tr");
-  let tdTotal1 = document.createElement("td");
+  const tr2 = document.createElement("tr");
+  const tdTotal1 = document.createElement("td");
   tdTotal1.textContent = "Total";
-  let tdTotal2 = document.createElement("td");
+  const tdTotal2 = document.createElement("td");
   tdTotal2.textContent = time;
 
   tr2.appendChild(tdTotal1);
   tr2.appendChild(tdTotal2);
   table.appendChild(tr2);
-  
-
 });
